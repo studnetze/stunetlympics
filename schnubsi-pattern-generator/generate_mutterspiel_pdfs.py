@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
-
 import numpy
 import os
 
@@ -36,60 +34,50 @@ footer = """
 }
 """
 
+for blatt in range(1, 19):
 
+    dotFile = open("dotfile.dot", "w")
+    fileContent = header1 + str(blatt) + header2
 
-for blatt in range(1,19):
-    
-    dotFile = open("dotfile.dot","w")
-    fileContent = header1 + str(blatt)+ header2
+    blackBlocks = numpy.random.permutation(range(1, 46))[1:31]
 
-    blackBlocks = numpy.random.permutation(range(1,46))[1:31]
+    for block in range(1, 46):
 
+        fileContent = fileContent + " " + str(block) + "->"
 
-    for block in range(1,46):
-        
-        fileContent = fileContent + " "+ str(block) +"->"
-        
     fileContent = fileContent[0:-2] + "\n"
 
-    for block in range(1,46):
+    for block in range(1, 46):
         fileContent = fileContent + str(block) + ' [label="'+str(block)+'"]\n'
 
-
-
     for block in blackBlocks:
-        
-        fileContent = fileContent + str(block) + " [style=filled,fillcolor = red]\n"
 
-        
+        fileContent = fileContent + str(block) + \
+            " [style=filled,fillcolor = red]\n"
+
     fileContent = fileContent + "\n\nnode[group=b]; \n\n"
 
+    for block in range(46, 91):
 
+        fileContent = fileContent + " " + str(block) + "->"
 
-
-    for block in range(46,91):
-        
-        fileContent = fileContent + " "+ str(block) +"->"
-        
     fileContent = fileContent[0:-2]+"\n"
 
-    i=1
-    for block in range(46,91):
+    i = 1
+    for block in range(46, 91):
         fileContent = fileContent + str(block) + ' [label="'+str(i)+'"]\n'
         i = i+1
 
-
-    blackBlocks = numpy.random.permutation(range(46,91))[1:31]
+    blackBlocks = numpy.random.permutation(range(46, 91))[1:31]
 
     for block in blackBlocks:
-        
-        fileContent = fileContent + str(block) + " [style=filled,fillcolor = red]\n"
-        
+
+        fileContent = fileContent + str(block) + \
+            " [style=filled,fillcolor = red]\n"
 
     fileContent = fileContent + footer
 
     dotFile.write(fileContent)
     dotFile.close()
-    
-    os.system("dot -Tpdf dotfile.dot -o test_"+ str(blatt)+".pdf")
-    
+
+    os.system("dot -Tpdf dotfile.dot -o test_" + str(blatt)+".pdf")

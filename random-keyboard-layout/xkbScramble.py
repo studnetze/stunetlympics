@@ -6,39 +6,45 @@
 #
 # Tobias Birnbaum, SNT 2015
 
-import os, sys, glob, string
+import os
+import sys
+import glob
+import string
 import numpy as np
 from operator import itemgetter
 # Usage: itemgetter(*[Index List])([List])
 
-keyboardKeys=['AE{0:02d}'.format(i) for i in range(1,11)];
-keyboardKeys.extend(['AD{0:02d}'.format(i) for i in range(1,12)]);
-keyboardKeys.extend(['AC{0:02d}'.format(i) for i in range(1,12)]);
-keyboardKeys.extend(['AB{0:02d}'.format(i) for i in range(1,8)]);
+keyboardKeys = ['AE{0:02d}'.format(i) for i in range(1, 11)]
+keyboardKeys.extend(['AD{0:02d}'.format(i) for i in range(1, 12)])
+keyboardKeys.extend(['AC{0:02d}'.format(i) for i in range(1, 12)])
+keyboardKeys.extend(['AB{0:02d}'.format(i) for i in range(1, 8)])
 
-symbols = list(string.letters);
-symbols.extend(['odiaeresis', 'Odiaeresis', 'adiaeresis', 'Adiaeresis', 'udiaeresis', 'Udiaeresis', 'exclam', 'quotedbl', 'section', 'dollar', 'percent', 'ampersand', 'slash', 'parenleft', 'parenright', 'equal']);
-symbols.extend(range(10));
+symbols = list(string.letters)
+symbols.extend(['odiaeresis', 'Odiaeresis', 'adiaeresis', 'Adiaeresis',
+                'udiaeresis', 'Udiaeresis', 'exclam', 'quotedbl', 'section',
+                'dollar', 'percent', 'ampersand', 'slash', 'parenleft',
+                'parenright', 'equal'])
+symbols.extend(range(10))
 
-#scramble symbol list
-symbolsSCR = np.random.permutation(np.array(symbols));
-symbolsSCR = symbolsSCR.reshape(len(symbols)/2, 2);
-symbolsSCR = symbolsSCR.tolist();           # Format: symbolsSCR[1] = ['N', 'P']
+# scramble symbol list
+symbolsSCR = np.random.permutation(np.array(symbols))
+symbolsSCR = symbolsSCR.reshape(len(symbols)/2, 2)
+symbolsSCR = symbolsSCR.tolist()           # Format: symbolsSCR[1] = ['N', 'P']
 
-keyMap = dict(zip(keyboardKeys, symbolsSCR));
+keyMap = dict(zip(keyboardKeys, symbolsSCR))
 
 
 # create backup
-#if os.path.isfile("bla.org"):
+# if os.path.isfile("bla.org"):
 #    print "Backup exists already"
-#elif not os.path.exists("bla.org"):
+# elif not os.path.exists("bla.org"):
 #    os.rename("bla", "bla.org")
 #    print "New backup created"
 
-#write to file
-outfile = open('bla', 'wt');
+# write to file
+outfile = open('bla', 'wt')
 
-#HEADER BEGIN
+# HEADER BEGIN
 outfile.write('default\n')
 outfile.write('xkb_symbols "basic" {\n')
 outfile.write('name[Group1]="OwnFoo";\n')
@@ -67,19 +73,21 @@ outfile.write('    key <RFSH> { [Shift_R ]};\n')
 outfile.write('    key <RFSH> { [Shift_R ]};\n')
 outfile.write('    key <RFSH> { [Shift_R ]};\n')
 outfile.write('// this block will end now\n')
-#HEADER END
+# HEADER END
 
-kbd = keyMap.keys();
-kbd.sort();
+kbd = keyMap.keys()
+kbd.sort()
 for key in kbd:
-    sym = keyMap[key];
-    outfile.write('    key <' + key + '> { [' + str(sym[0]) + ', ' + str(sym[1]) + '] }; \n')
+    sym = keyMap[key]
+    outfile.write('    key <' + key + '> { [' + str(sym[0]) + ', ' +
+                  str(sym[1]) + '] }; \n')
 # scrambled output of keys whatsoever
-    #for kbd,sym in keyMap.iteritems():
-    #    outfile.write('    key <' + kbd + '> { [' + str(sym[0]) + ', ' + str(sym[1]) + '] }; \n')
+    # for kbd,sym in keyMap.iteritems():
+    #    outfile.write('    key <' + kbd + '> { [' + str(sym[0]) + ', ' +
+    #                  str(sym[1]) + '] }; \n')
 
-#FINISH BEGIN
+# FINISH BEGIN
 outfile.write('};\n')
-#FINISH END
+# FINISH END
 
-outfile.close();
+outfile.close()
